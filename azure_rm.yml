@@ -5,7 +5,7 @@ include_vm_resource_groups:
 keyed_groups:
     - prefix: tags
       key: tags
-    compose:
+      compose:
         {% for host in groups['all'] %}
         {{ host }}:
             ansible_host: {{ hostvars[host]['privateIpAddress'] }}
