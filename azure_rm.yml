@@ -10,5 +10,5 @@ compose:
     {{ host }}:
         ansible_host: {{ hostvars[host]['privateIpAddress'] }}
         ansible_user: azureuser
-        ansible_ssh_private_key_file: "{{ lookup('env', 'ANSIBLE_VAULT_PASSWORD_FILE') | default('/path/to/vault/password/file') | realpath }}/vars.yml"
+        ansible_ssh_private_key_file: "{{ lookup('env', 'ANSIBLE_VAULT_PASSWORD_FILE') | default('/var/lib/awx/projects/test_project/vault.yml') | realpath }}/vars.yml"
 {% endfor %}
