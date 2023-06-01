@@ -1,6 +1,6 @@
 {% for host in groups['all'] %}
   {{ host }}:
-    ansible_host: "{{ hostvars[host]['privateIpAddress'] }}"
+    ansible_host: "{{ hostvars[host]['publicIpAddress'] }}"
     ansible_user: azureuser
     vars:
       ansible_ssh_private_key_file: "{{ lookup('env', 'ANSIBLE_VAULT_PASSWORD_FILE') | default('/var/lib/awx/projects/vars.yml') | realpath }}"
