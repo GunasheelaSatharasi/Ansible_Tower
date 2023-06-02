@@ -7,4 +7,5 @@ keyed_groups:
     key: tags
   - prefix: azure
     key: azure
-#hosts: {% include "azure_rm_hosts.j2" %}
+vars_files:
+     - azure_vars.yml
