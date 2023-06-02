@@ -1,11 +1,7 @@
 plugin: azure_rm
 auth_source: auto
 include_vm_resource_groups:
-  - poc
+      - poc
 keyed_groups:
-  - prefix: tags
-    key: tags
-  - prefix: azure
-    key: azure
-vars_files:
-     - azure_vars.yml
+    - prefix: tags
+      key: tags
