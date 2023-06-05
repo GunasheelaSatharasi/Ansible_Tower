@@ -1,0 +1,20 @@
+## Install apache webserver and start the service
+- name: Install latest version of "apache2" on ubuntu.
+  package:
+       name: apache2
+       state: present
+       update_cache: yes
+
+- name: Ensure apache is running on ubuntu.
+  ansible.builtin.service:
+        name: apache2
+        state: started
+        enabled: yes
+
+## Copy the index.html file to webserver directory
+- name: Copy index.html to apache webserver on ubuntu .
+  copy:
+    src: '{{apache_index_page}}'
+    dest: /var/www/html
+  notify:
+      - Restart apache on ubuntu

@@ -1,0 +1,11 @@
+# #Firewalld Rule List
+# firewalld_rule_list:
+# - rule_name: enable traffic for http service                        # The name of the rule which is to be assigned. This is just a descriptive name for better understanding.
+#   service: http                                                     # Name of a service to add/remove to/from firewalld.
+#   permanent: true                                                   # Should this configuration be in the running firewalld configuration or persist across reboots.
+#   state: enabled                                                    # Enable or disable a setting. For ports: Should this port accept (enabled) or reject (disabled) connections. Choices: absent, disabled, enabled or present.
+
+# - rule_name: enabling port 191 and 192                              # The name of the rule which is to be assigned. This is just a descriptive name for better understanding.
+#   port: 191-192/udp                                                 # Name of a port or port range to add/remove to/from firewalld. Must be in the form PORT/PROTOCOL or PORT-PORT/PROTOCOL for port ranges.
+#   permanent: true                                                   # Should this configuration be in the running firewalld configuration or persist across reboots.
+#   state: enabled                                                    # Enable or disable a setting. For ports: Should this port accept (enabled) or reject (disabled) connections. Choices: absent, disabled, enabled or present.

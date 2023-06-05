@@ -1,0 +1,6 @@
+---
+# handlers file for firewalld
+- name: Firewalld Rule added
+  service:
+     name: firewalld
+     state: restarted

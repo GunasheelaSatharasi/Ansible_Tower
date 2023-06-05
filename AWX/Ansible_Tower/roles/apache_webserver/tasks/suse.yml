@@ -1,0 +1,21 @@
+## Install apache webserver and start the service
+- name: Install apache webserver on suse.
+  zypper: 
+    name: apache2
+    state: present
+    update_cache: yes
+    disable_recommends: no
+
+- name: Ensure apache is running on SUSE os
+  ansible.builtin.service:
+    name: apache2
+    state: started 
+    enabled: yes
+
+## Copy the index.html file to webserver directory
+- name: Copy index.html to apache webserver on suse.
+  copy:
+    src: '{{apache_index_page}}'
+    dest: /srv/www/htdocs
+  notify:
+      - Restart apache2 on suse

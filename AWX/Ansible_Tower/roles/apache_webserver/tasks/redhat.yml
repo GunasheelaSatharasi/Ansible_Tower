@@ -1,0 +1,20 @@
+## Install apache webserver and start the service
+- name: Install latest version of apache on redhat.
+  package:
+    name: httpd
+    state: present
+    update_cache: yes
+
+- name: Ensure apache is running on redhat os
+  ansible.builtin.service:
+    name: httpd
+    state: started 
+    enabled: yes
+
+## Copy the index.html file to webserver directory
+- name: Copy index.html to apache webserver on redhat.
+  copy:
+    src: '{{apache_index_page}}'
+    dest: /var/www/html
+  notify:
+      - Restart httpd on redhat

@@ -1,0 +1,10 @@
+--- #Configuring Apache web server
+- name: Configure Apache web server
+  hosts: vm_ansible_playbook_*apachewebserver*
+  gather_facts: yes
+  become: yes
+  vars_files:
+          - ./group_vars/main.yml
+  roles:
+     - roles/apache_webserver
+     - roles/firewalld

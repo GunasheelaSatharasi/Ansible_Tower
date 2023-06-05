@@ -1,0 +1,15 @@
+---
+- name: Restart apache on ubuntu
+  ansible.builtin.service:
+        name: apache2
+        state: restarted
+
+- name: Restart httpd on redhat
+  ansible.builtin.service:
+    name: httpd
+    state: restarted
+
+- name: Restart apache2 on suse
+  ansible.builtin.service:
+    name: apache2
+    state: restarted

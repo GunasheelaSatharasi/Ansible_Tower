@@ -1,0 +1,57 @@
+---
+# tasks file for firewalld
+- name: Firewalld Rule Configuration
+  block:
+    - name: Check if firewalld is installed
+      stat:
+       path: /usr/sbin/firewalld
+      register: firewalld_path
+
+    - name: Install firewalld using yum on RedHat/Fedora/CentOS/OracleLinux
+      yum:
+          name: firewalld
+          update_cache: yes
+          state: latest
+      when: firewalld_path.stat.exists == False and (ansible_facts['distribution'] == "RedHat" or ansible_facts['distribution'] == "Fedora" or ansible_facts['distribution'] == "CentOS" or ansible_facts['distribution'] == "OracleLinux")
+
+    - name: Install firewalld using zypper on SUSE
+      zypper:
+          name: firewalld
+          update_cache: yes
+          state: latest
+      when: firewalld_path.stat.exists == False and ansible_facts['distribution'] == "SLES"
+
+    - name: Install firewalld using apt on Debian/Ubuntu
+      apt:
+          name: firewalld
+          update_cache: yes
+          state: latest
+      when: firewalld_path.stat.exists == False and (ansible_facts['distribution'] == "Debian" or ansible_facts['distribution'] == "Ubuntu")
+
+    - name: Configure rule
+      firewalld:
+          icmp_block:           '{{item.icmp_block           | default(omit)}}'
+          icmp_block_inversion: '{{item.icmp_block_inversion | default(omit)}}'
+          immediate:            '{{item.immediate            | default(false)}}'
+          interface:            '{{item.interface            | default(omit)}}'
+          masquerade:           '{{item.masquerade           | default(omit)}}'
+          offline:              '{{item.offline              | default(omit)}}'
+          permanent:            '{{item.permanent            | default(omit)}}'
+          port:                 '{{item.port                 | default(omit)}}'
+          rich_rule:            '{{item.rich_rule            | default(omit)}}'
+          service:              '{{item.service              | default(omit)}}'
+          source:               '{{item.source               | default(omit)}}'
+          state:                '{{item.state                | default(omit)}}'
+          target:               '{{item.target               | default(omit)}}'
+          timeout:              '{{item.timeout              | default(omit)}}'
+          zone:                 '{{item.zone                 | default(omit)}}'
+      notify:
+       - Firewalld Rule added
+      loop: '{{ firewalld_rule_list | default(omit)}}'
+    - meta: flush_handlers
+
+    - name: Verify the firewall rule
+      command: /usr/bin/firewall-cmd --list-all
+      register: command_output
+    - debug:
+           var: command_output.stdout_lines
