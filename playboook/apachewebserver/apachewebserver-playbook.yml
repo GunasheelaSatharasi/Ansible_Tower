@@ -1,6 +1,6 @@
 --- #Configuring Apache web server
 - name: Configure Apache web server
-  hosts: vm_ansible_playbook_*apachewebserver*
+  hosts: all
   gather_facts: yes
   become: yes
   vars_files:
