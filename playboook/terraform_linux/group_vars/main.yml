@@ -1,0 +1,22 @@
+---
+#basic_packages_installation variables
+redhat_packages: #basic packages for redhat
+    - unzip
+    - wget
+    - curl
+ubuntu_packages: #basic packages for ubuntu
+    - wget
+    - unzip
+    - curl
+suse_packages: #basic packages for suse
+    - wget
+    - curl
+    - unzip 
+
+#terraform installation variables
+terraform_version: "1.4.6" # Change this to the desired Terraform version.
+linux_arch: "amd64" #Specify linux architecture.
+terraform_url: "https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_linux_{{ linux_arch }}.zip" # terraform download url.
+terraform_archive_dest: "/tmp/terraform_{{ terraform_version }}_linux_{{ linux_arch}}.zip" # path to download terraform.
+terraform_home: "/usr/local/bin" # path to extract terraform downloaded file.
+environment_path: "/usr/local/bin:/usr/bin:/bin" # environmental path to fetch terrafrom version.

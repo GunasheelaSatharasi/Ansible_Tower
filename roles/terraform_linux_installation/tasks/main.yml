@@ -1,0 +1,25 @@
+---
+# This task will download Terraform by provided url from browser
+- name: Download Terraform
+  ansible.builtin.get_url:
+    url: "{{ terraform_url }}"
+    dest: "{{ terraform_archive_dest }}"
+    mode: 0755
+# This task will unzip downloaded Terraform
+- name: Unzip Terraform
+  ansible.builtin.unarchive:
+    src: "{{ terraform_archive_dest }}"
+    dest: "{{ terraform_home }}"
+    remote_src: yes
+    mode: 0755
+# This task will verify Terraform installation
+- name: Verify Terraform installation
+  shell: terraform --version
+  environment:
+     PATH: "{{ environment_path }}"
+  register: terraform_version_output
+  changed_when: false
+# This task will display Terraform version
+- name: Display Terraform version
+  ansible.builtin.debug:
+    var: terraform_version_output.stdout_lines

@@ -1,0 +1,11 @@
+--- 
+# Installation of terraform
+- name: Install Terraform
+  hosts: vm_ansible_playbook_*terraform*
+  become: yes
+  gather_facts: yes
+  vars_files:
+     - ./group_vars/main.yml
+  roles:
+     - ../../roles/tomcat_basic_packages_installation
+     - ../../roles/terraform_linux_installation
