@@ -1,12 +1,6 @@
 # maria db variables
 maria_db_root_password: "{{ 'null' if ansible_distribution == 'RedHat' else 'root' }}" # login password for mariadb
-new_maria_db_root_password: !vault |  # maria db new root password
-            $ANSIBLE_VAULT;1.1;AES256
-            61303438393061333231623533393335343566353364346531383164366430316431303837626134
-            6461613464613334336232656530653230366461643761380a613763613736306130326336373365
-            39623532636162643931653766313866366232646262383534656131356430316334303639373133
-            3461653965313334610a336362616565616639623039633939653434353339373565646333633133
-            6533
+new_maria_db_root_password: "maria"
 mysql_owner: "root" # owner to Create MySQL data directory
 mysql_group: "root" # group to Create MySQL data directory
 username: "root" # The username
