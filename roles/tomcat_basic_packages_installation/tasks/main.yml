@@ -1,0 +1,29 @@
+# Installing all the required basic packages
+- name: Install basic packages
+  block:
+    - name: Install basic packages
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ redhat_packages }}"
+      when: ansible_distribution == 'RedHat'
+
+    - name: Install basic packages on SUSE
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop: "{{ suse_packages }}"
+      when: ansible_os_family == "Suse"
+
+    - name: Update package list on Ubuntu
+      ansible.builtin.apt:
+        update_cache: yes
+      when: ansible_os_family == "Ubuntu" or ansible_os_family == "Debian"
+
+    - name: Install basic packages on Ubuntu
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ ubuntu_packages }}"
+      when: ansible_os_family == "Ubuntu" or ansible_os_family == "Debian"

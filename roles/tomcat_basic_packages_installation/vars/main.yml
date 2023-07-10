@@ -1,0 +1,28 @@
+# --- # Basic Packages Installation
+# redhat_packages: 
+#     - vim
+#     - bash-completion
+#     - tmux
+#     - unzip
+#     - wget
+#     - curl
+#     - git
+#     - firewalld
+# ubuntu_packages:
+#     - vim
+#     - bash-completion
+#     - tmux
+#     - tree
+#     - wget
+#     - unzip
+#     - curl
+#     - git
+#     - firewalld
+# suse_packages:
+#     - vim
+#     - bash-completion
+#     - wget
+#     - curl
+#     - git
+#     - firewalld
+#     - unzip 
