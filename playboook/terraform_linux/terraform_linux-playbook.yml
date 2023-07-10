@@ -1,7 +1,7 @@
 --- 
 # Installation of terraform
 - name: Install Terraform
-  hosts: vm_ansible_playbook_*terraform*
+  hosts: all
   become: yes
   gather_facts: yes
   vars_files:
