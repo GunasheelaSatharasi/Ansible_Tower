@@ -1,0 +1,9 @@
+---
+# This is a dynamic inventory file used to authenticate to azure cloud and fetch the server information dynamically.
+plugin: azure.azcollection.azure_rm  # Plugin used to Query VM details from Azure Resource Manager
+auth_source: cli                     # forces this plugin to use a CLI auth session instead of the automatic auth source selection
+include_vm_resource_groups:          # fetches VMs from an explicit list of resource groups instead of default all
+  - poc
+keyed_groups:                        # places hosts in dynamically-created groups based on a variable value
+  - prefix: vm                       # places each host in a group named 'tag_(tag name)_(tag value)' for each tag on a VM.
+    key: tags

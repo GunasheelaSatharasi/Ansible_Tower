@@ -1,0 +1,11 @@
+# Playbook to install Maria DB
+---
+- name: Playbook to install Maria DB 
+  hosts: vm_ansible_playbook_*maria*
+  gather_facts: true
+  become: true
+  vars_files:
+     - ./group_vars/main.yml    # This play will read variables from group_vars
+
+  roles:
+    - ../../roles/maria_db      # This play will read maria_db role fro roles

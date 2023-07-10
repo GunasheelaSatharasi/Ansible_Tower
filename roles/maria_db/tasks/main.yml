@@ -1,0 +1,84 @@
+# pre tasks
+# Update repository indexes (Ubuntu)
+- name: Update repository indexes (Ubuntu)
+  apt:
+    update_cache: yes
+  when: ansible_distribution in ['Ubuntu', 'Debian']
+# Update repository indexes (SUSE)
+- name: Update repository indexes (SUSE)
+  zypper:
+    name: ''
+    refresh: yes
+  when: ansible_distribution in ['SUSE', 'SLES', 'opensuse']
+# Update repository indexes (Red Hat)
+- name: Update repository indexes (Red Hat)
+  yum:
+    name: '*'
+    state: latest
+  when: ansible_distribution in ['RedHat', 'CentOS']
+# Check if MariaDB is installed on Red Hat and Ubuntu
+- name: Check if MariaDB is installed on Red Hat and Ubuntu
+  ansible.builtin.service:
+    name: mariadb
+    state: started
+  register: mariadb_service_check
+  ignore_errors: yes
+  when: ansible_distribution in ['Debian', 'Ubuntu', 'RedHat', 'CentOS']
+# Check if MariaDB is installed on SUSE
+- name: Check if MariaDB is installed on SUSE
+  ansible.builtin.service:
+    name: mariadb
+    state: started
+  register: mariadb_service_check_suse
+  ignore_errors: yes
+  when: ansible_distribution in ['SUSE', 'SLES', 'opensuse']
+# block to install and configure and password set to mariadb
+- block:
+  # Install MariaDB on Ubuntu
+  - name: Install MariaDB on Ubuntu
+    ansible.builtin.package:
+      name: mariadb-server
+      state: present
+    when: ansible_distribution in ['Ubuntu', 'Debian']
+  # Install MariaDB on SUSE
+  - name: Install MariaDB on SUSE
+    ansible.builtin.package:
+      name: mariadb
+      state: present
+    when: ansible_distribution in ['SUSE', 'SLES', 'opensuse']
+  # Install MariaDB on Red Hat
+  - name: Install MariaDB on Red Hat
+    ansible.builtin.package:
+      name: mariadb-server
+      state: present
+    when: ansible_distribution in ['RedHat', 'CentOS']
+  # Start MariaDB service
+  - name: Start MariaDB service
+    ansible.builtin.service:
+      name: mariadb
+      state: started
+  # Create MySQL data directory
+  - name: Create MySQL data directory
+    ansible.builtin.file:
+      path: /var/lib/mysql
+      state: directory
+      mode: '0755'
+      owner: "{{ mysql_owner }}"
+      group: "{{ mysql_group }}"
+  # Give full permissions to MySQL data directory
+  - name: Give full permissions to MySQL data directory
+    ansible.builtin.file:
+      path: /var/lib/mysql
+      mode: '0777'
+      recurse: yes
+  # Set root password
+  - name: Set root password
+    become: yes
+    command: >
+        mysql -u '{{ username }}' {% if maria_db_root_password != 'null' %}-p'{{ maria_db_root_password }}' {% endif %}-e "ALTER USER '{{ username }}'@'{{ host }}' IDENTIFIED BY '{{ new_maria_db_root_password | ternary(new_maria_db_root_password, '') }}'"
+  # Restart MariaDB service on Ubuntu
+  - name: Restart MariaDB service
+    ansible.builtin.service:
+      name: mariadb
+      state: restarted
+  when: mariadb_service_check is failed or mariadb_service_check_suse is failed
